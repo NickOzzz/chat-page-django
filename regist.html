@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'st.css' %}">
+    <title>Registration</title>
+</head>
+<body>
+<form action="." method="POST">{% csrf_token %}
+<input type="text" name="regn" id="regn" placeholder="name">
+<h1 id="sim">Your id should be absolutely similar to name</h1>
+<input type="text" name="regi" id="regi" placeholder="id">
+<button id="regb" name="regb">register me</button>
+</form>
+</body>
+</html>

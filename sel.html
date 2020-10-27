@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'st.css' %}">
+</head>
+<body>
+<h1 id="messa">Users</h1>
+<form action="." method="POST">{% csrf_token %}
+    {% for obj in alli %}
+    <div id="d1">
+    <button id="but1" name={{obj.name}}>{{ obj.name }}</button>
+        <h1 id="hhh">press to chat</h1>
+         <div id="icon">
+                 {% if obj.status == "0" %}
+                 <div id="iconsm" style="background-color: green">
+                 </div>
+             {% else %}
+             <div id="iconsm" style="background-color: red">
+                 </div>
+                 {% endif %}
+    </div>
+    </div>
+    {% endfor %}
+    <div id="chat">
+        <div id="ch">
+        {% for mm in alli4 %}
+        {% if mm.num == 1 %}
+        {% if mm.ido == c %}
+        <div id="us1">
+            <h1 id="head1">{{ mm.ido }}</h1>
+        <h1 id="u1">{{ mm.ml }}</h1>
+            <h1 id="dat1">{{ mm.date }}</h1>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if mm.num == 2 %}
+        {% if mm.ido == c %}
+        <div id="us2">
+        <h1 id="head2">admin</h1>
+        <h1 id="u2">{{ mm.ml }}</h1>
+            <h1 id="dat2">{{ mm.date }}</h1>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+            <input type="text" hidden="hidden" id="rrval" value="{{ rr }}">
+    <input type="text" hidden="hidden" id="perval" value="{{ per }}">
+    </div>
+        <div id="buttn">
+        <input type="text" id="ttt" name="ttt" placeholder="your message">
+            <input type="text" id="hid" hidden="hidden">
+    <button name="send" id="send">send</button>
+    </div>
+    </div>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(int());
+    function int(){
+    setInterval(function(){
+    $.ajax({
+    type: "POST",
+    url: "",
+    success: function(document){
+    var jo = $(document).find("#ch").html();
+    $("#ch").html(jo);
+    }
+    });
+    }
+    }
+    });
+    }, 10000);
+    };
+
+</script>
+</body>
+</html>

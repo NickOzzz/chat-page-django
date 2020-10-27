@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>set</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'st.css' %}">
+</head>
+<body>
+<form action="." method="POST">{% csrf_token %}
+<input type="text" name="num" id="nn" placeholder="name">
+<input type="text" name="io" id="ii" placeholder="id">
+<button name="op" id="op">LOGIN</button>
+    <button name="reg" id="reg">REGISTER</button>
+</form>
+</body>
+</html>

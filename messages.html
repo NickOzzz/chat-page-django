@@ -1,0 +1,212 @@
+{% load static %}
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'freelance_app/bootstrap.min.css' %}"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'freelance_app/landing-page.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'freelance_app/st.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'messages.css' %}">
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1">
+   
+</head>
+<body>
+<div class="main-wrap">
+<header>
+    <div>
+    <div class="header-icon-row">
+        <div class="header-icon-row-content-container">
+            <h1 style="color: red;" class="bold" id="log">TutorHub</h1>
+        </div>
+        <div class="header-icon-row-content-container">
+            <a href="/"><img src="{% static 'images/views/header-footer/header-logo.png' %}" id="imi" alt="header-logo" /></a>
+        </div>
+        <div class="header-icon-row-content-container">
+        <div class="header-links-row">      
+         <div class="header-link-row-content-container">
+             <!-- <select name="job
+                <option value="job" selected="selected">Jobs</option>
+                <option value="post_job">Post a job</option>           
+                <option value="my_jobs">My jobs</option>               
+             </select> -->
+         </div>         
+         <div class="header-icon-row" id="choose">
+        <div class="header-icon-row-content-container">
+        <div class="header-links-row">
+         <div class="header-link-row-content-container">
+             <a style="margin-right: 50px;" href="/jobs/"><h1 id="jobs"><u>Jobs</u></h1></a>
+         </div>
+         <div class="header-link-row-content-container">
+                 <a style="margin-right: 50px;" href="/messages/"><h1 id="messages"><u>Messages</u></h1></a>
+         </div>
+         <div class="header-link-row-content-container">
+                 <a style="margin-right: 50px;" href="/orders/"><h1 id="orders"><u>Orders</u></h1></a>
+         </div>
+         <div class="header-link-row-content-container">
+                 <a style="margin-right: 50px;" href="/contact_us/"><h1 id="contracts"><u>Contacts</u></h1></a>
+         </div>
+          <a class="header-logout-button" href="/accounts/logout/"><h1 id="logout"><u>Logout</u></h1></a>
+    </div>
+        </div>
+    </div>
+        </div>
+    </div>
+    
+    </div>
+</header>
+</div>
+<div>
+
+{% if request.user.is_superuser %}
+
+<h1 id="messa">Users</h1>
+<h1 id="messa2">Messages</h1>
+<form action="." method="POST" id="admin_form">{% csrf_token %}
+    <div id="users">
+    {% for obj in users %}
+        {% if request.user.id != obj.id %}
+            <div id="d1">    
+            <button id="{{obj.id}}" class="but1" name="recipient" value="{{obj.id}}" onclick='getUserId("{{obj.id}}");'>{{ obj }}</button>                
+                {% if obj.is_online %}
+                    <div id="iconsm" style="background-color: green"></div>
+                {% else %}
+                    <div id="iconsm" style="background-color: red"></div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    <div id="chat">  
+    <div id="ch">      
+        {% if request.method == "POST" %}        
+              {% for obj in op1 %} 
+                <div id="us1">
+                    <h1 id="head1">{{ obj.user }}</h1>
+                    <h1 id="u1">{{ obj.mod }}</h1>
+                    <h1 id="dat1">{{ obj.date }}</h1>
+                </div>
+                {% if obj.user.id != 1 %}            
+                    <input type="hidden" id="client_id" name="client_id" value="{{ obj.user.id }}">
+                {% endif %}
+                {% endfor %}
+
+        {% else %}
+            <p id="select_operator">Select a user to start a conversation...</p>
+        {% endif %}
+    </div>
+    {% if request.method == "POST" %} 
+    <div id="buttn"> 
+        <input type="hidden" id="operator_id" name="operator_id" value="{{ request.user.id }}">           
+        <input type="text" id="ttt" name="ttt" placeholder="your message">
+        <button name="send" id="send">send</button>
+    </div>
+    {% endif %} 
+    </div>
+
+</form>
+<form action="../pay/" method="POST" id="payment_form">{% csrf_token %}
+    <div id="payment">
+        <b>Make Payment?</b>
+        <br><br>
+        <label>Amount (USD)</label>
+        <input type="number" name="amount" id="amount" required style="width: 120px;">
+        <br>
+        <button name="pay" id="pay" >Pay</button>
+        <br><br><br><br><br>
+        <b>Note</b>
+        <p>The payment process is done by PayPal. The website does not store your card information. This process is very secure!</p>
+    </div>
+</form>
+{% else %} 
+
+<h1 id="messa">Operator</h1>
+<form action="../to/" method="POST" id="client_form">{% csrf_token %}
+    <div id="d1">
+    <button id="but1" class="but1" name="op">Write message to operator</button>
+        <h1 id="hhh">press to chat</h1>
+    </div>
+    <div id="chat">
+    <div id="ch">      
+        {% if request.method == "POST" %}
+            {% for obj in op %}
+                {% if request.user.id == obj.receiver %}
+                    <div id="us2">
+                    <h1 id="head1">{{ obj.user }}</h1>
+                    <h1 id="u1">{{ obj.mod }}</h1>
+                        <h1 id="dat1">{{ obj.date }}</h1>
+                    </div>
+                {% endif %}
+              
+                {% if obj.user == request.user %}
+                    <div id="us1">
+                        <h1 id="head2">{{ request.user }}</h1>
+                    <h1 id="u2">{{ obj.mod }}</h1>
+                        <h1 id="dat2">{{ obj.date }}</h1>
+                    </div>
+                {% endif %}      
+            {% endfor %}            
+        {% else %}
+            <p id="select_operator">Select operator to start a conversation...</p>
+        {% endif %}
+    </div>
+    {% if request.method == "POST" %} 
+    <div id="buttn">
+        <input type="text" id="ttt" name="ttt" placeholder="your message">
+        <button name="send" id="send">send</button>
+    </div>
+    {% endif %}   
+    </div>
+    
+</form>
+</form>
+<form action="../pay/" method="POST" id="payment_form">{% csrf_token %}
+    <div id="payment">
+        <b>Make Payment?</b>
+        <br><br>
+        <label>Amount (USD)</label>
+        <input type="number" name="amount" id="amount" required style="width: 120px;">
+        <br>
+        <button name="pay" id="pay" >Pay</button>
+        <br><br><br><br><br>
+        <b>Note</b>
+        <p>The payment process is done by PayPal. The website does not store your card information. This process is very secure!</p>
+    </div>
+</form>
+{% endif %} 
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    function getUserId(id) {        
+        localStorage.setItem('user_id', id);
+    }
+    
+    $(document).ready(int());
+        var d = $('#chat');
+        d.scrollTop(d.prop("scrollHeight"));
+        function int(){
+            var id = localStorage.getItem('user_id');   
+            let data = {};
+            data.recipient = id;
+            data.csrfmiddlewaretoken = '{{ csrf_token }}';
+
+            setInterval(function(){
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: data,
+                success: function(document){
+                    var jo = $(document).find("#ch").html();                    
+                    $("#ch").html(jo);
+                }
+            });
+        }, 5000);
+    };
+
+</script>
+</body>
+
+</html>

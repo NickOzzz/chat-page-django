@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'st.css' %}">
+</head>
+<body>
+<h1 id="messa">Operator</h1>
+<form action="." method="POST">{% csrf_token %}
+    <div id="cra">
+    <div id="d1">
+        <div id="ic">
+        {% for obj in alli %}
+        {% if j == obj.idd %}
+             <input type="hidden" id="sta" value="0" name="stat">
+            {% else %}
+            <input type="hidden" id="sta" value="1" name="stat">
+            {% endif %}
+        {% endfor %}
+        </div>
+    <button id="but1" name="op">Write message to operator</button>
+        <h1 id="hhh">press to chat</h1>
+    </div>
+    <div id="chat">
+        <div id="jj">
+            {% for mm in alli4 %}
+        {% if mm.num == 2 %}
+        {% if j == mm.ido %}
+        <div id="us2">
+        <h1 id="head1">admin</h1>
+        <h1 id="u1">{{ mm.ml }}</h1>
+            <h1 id="dat1">{{ mm.date }}</h1>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if mm.num == 1 %}
+        {% if j == mm.ido %}
+        <div id="us1">
+            <h1 id="head2">{{ mm.ido }}</h1>
+        <h1 id="u2">{{ mm.ml }}</h1>
+            <h1 id="dat2">{{ mm.date }}</h1>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+            </div>
+        <div id="buttn">
+        <input type="text" id="ttt" name="ttt" placeholder="your message">
+    <button name="send" id="send">send</button>
+    </div>
+        </div>
+    </div>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(int());
+    function int(){
+    setInterval(function(){
+    $.ajax({
+    type: "POST",
+    url: "",
+    success: function(document){
+    var jo = $(document).find("#jj").html();
+    var ico = $(document).find("#ic").html();
+    $("#jj").html(jo);
+    $("#ic").html(ico);
+    }
+    })
+    }, 10000);
+    };
+</script>
+</body>
+</html>
